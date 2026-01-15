@@ -1,4 +1,5 @@
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
 
 import com.example.Cellule;
@@ -29,7 +30,7 @@ public class Tests {
         assertFalse(celluleTest.estVivante(), "Une cellule vivante avec moins de 2 voisins devrait mourir");
     }
 
-    @Test
+    @Test // Trop de voisines : mortes
     public void cellShouldDieIfTooMuchNeighbors() {
         Grille grille = new Grille(3,3);
 
@@ -51,5 +52,29 @@ public class Tests {
         Cellule celluleTest = grille.getCellule(1, 1);
         
         assertFalse(celluleTest.estVivante(), "Une cellule vivante avec plus de 3 voisins devrait mourir");
-    }   
+    }
+
+    @Test // Morte et exactement 3 voisines : naissance
+    public void cellShouldBornIfThreeNeighbors() {
+        Grille grille = new Grille(3,3);
+
+        // Grille test
+        grille.setCellule(0,0, true);
+        grille.setCellule(1,0, true);
+        grille.setCellule(2,0, true);
+
+        grille.setCellule(0,1, false);
+        grille.setCellule(1,1, false);
+        grille.setCellule(2,1, false);
+
+        grille.setCellule(0,2, false);
+        grille.setCellule(1,2, false);
+        grille.setCellule(2,2, false);
+
+        grille = grille.prochaineEtape();
+
+        Cellule celluleTest = grille.getCellule(1, 1);
+
+        assertTrue(celluleTest.estVivante(), "Une cellule morte avec 3 voisins devrait naître");
+    }
 }
