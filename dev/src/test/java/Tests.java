@@ -28,4 +28,28 @@ public class Tests {
         Cellule celluleTest = grille.getCellule(1, 1);
         assertFalse(celluleTest.estVivante(), "Une cellule vivante avec moins de 2 voisins devrait mourir");
     }
+
+    @Test
+    public void cellShouldDieIfTooMuchNeighbors() {
+        Grille grille = new Grille(3,3);
+
+        // Grille test, 4 voisins
+        grille.setCellule(0,0, true);
+        grille.setCellule(1,0, true);
+        grille.setCellule(2,0, true);
+
+        grille.setCellule(0,1, true);
+        grille.setCellule(1,1, true);
+        grille.setCellule(2,1, false);
+
+        grille.setCellule(0,2, false);
+        grille.setCellule(1,2, false);
+        grille.setCellule(2,2, false);
+
+        grille = grille.prochaineEtape();
+
+        Cellule celluleTest = grille.getCellule(1, 1);
+        
+        assertFalse(celluleTest.estVivante(), "Une cellule vivante avec plus de 3 voisins devrait mourir");
+    }   
 }
